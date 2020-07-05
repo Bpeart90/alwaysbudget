@@ -3,8 +3,10 @@ const FILES_TO_CACHE = [
     "/index.html",
     "/index.js",
     "/styles.css",
-    "service-worker.js",
-    "transactiondb.js"
+    "/transactiondb.js",
+    "/icons/icon-192x192.png",
+    "/icons/icon-512x512.png",
+    "/manifest.webmanifest"
 ];
 
 const CACHE_NAME = "static-cache-v2";
@@ -60,9 +62,9 @@ self.addEventListener("fetch", function (evt) {
     }
 
     evt.respondWith(
-        caches.match(evt.request).then(function (response) {
-            return cache.match(evt.request).then(response => {
-                return response || fetch(evt.request);
+        fetch(evt.request).catch(function (response) {
+            return caches.match(evt.request).then(response => {
+                return response
             });
         })
     );
